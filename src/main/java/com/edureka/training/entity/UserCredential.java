@@ -2,7 +2,10 @@ package com.edureka.training.entity;
 
 import jakarta.persistence.Entity;
 
+import java.util.ArrayList;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 
@@ -25,6 +28,36 @@ public class UserCredential {
 
     private String address;
     private String password;
+    
+    //added for cart
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+   
+    private Cart cart;
+
+    public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
+	}
+
+	public List<UserInvoice> getInvoices() {
+		return invoices;
+	}
+
+	public void setInvoices(List<UserInvoice> invoices) {
+		this.invoices = invoices;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	// One user can have many invoices
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+
+    private List<UserInvoice> invoices = new ArrayList<>();
 
     // Constructors
     public UserCredential() {}
