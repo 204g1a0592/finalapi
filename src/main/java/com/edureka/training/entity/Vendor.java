@@ -1,5 +1,8 @@
 package com.edureka.training.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDate;
 import java.util.List;
@@ -23,28 +26,25 @@ public class Vendor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long vendorid;
 
-    @Column(nullable = false)
+    @Column(unique=true)
     private String vendorname;
     
    
-    @Column(nullable = false)
+    @Column(unique=true)
     private String email;
-  
-
-	
 
 	private String phone;
-    
-
-	
 
 	private String address;
 	 
    
-   
+	
+
     
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", referencedColumnName = "productid") // Foreign key column in Vendor table
+  
+    @JsonIgnoreProperties("vendor")
     private Product product;
 
 	public Long getVendorid() {
@@ -95,8 +95,12 @@ public class Vendor {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+	
+	   
 
+	   
 	@OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL)
+	 @JsonIgnore
     private List<PurchaseInvoice> invoices;
     // getters and setters
 

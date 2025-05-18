@@ -1,6 +1,7 @@
 package com.edureka.training.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -15,6 +16,9 @@ public interface VendorRepository extends JpaRepository<Vendor, Long>{
 	List<Vendor> findByVendorname(String vendorname);
 
 	Vendor findByProduct(Product existing);
+
+	Optional<Vendor> findByProductProductid(Long productid);
+
 
 	
 	

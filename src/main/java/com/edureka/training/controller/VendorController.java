@@ -58,15 +58,22 @@ public class VendorController {
 	}
 
 
+//	 @GetMapping("/displayvendor")
+//	 public ResponseEntity<List<Vendor>> addingvendor() {
+//		 List<Vendor> l=vservice.fetechAll();
+//		 
+//		 System.out.println("form cline lisy"+"name  "+l.get(0).getProduct().getDescription());
+//		 vservice.fetechAll();
+//		 return ResponseEntity.ok(l);
+//	 
+//	 }
+	 //now added by commenting above
 	 @GetMapping("/displayvendor")
-	 public ResponseEntity<List<Vendor>> addingvendor() {
-		 List<Vendor> l=vservice.fetechAll();
-		 
-		 System.out.println("form cline lisy"+"name  "+l.get(0).getProduct().getDescription());
-		 vservice.fetechAll();
-		 return ResponseEntity.ok(l);
-	 
+	 public ResponseEntity<List<Vendor>> getAllVendors() {
+	     List<Vendor> vendors = vrepo.findAll();
+	     return ResponseEntity.ok(vendors);
 	 }
+
 	 @GetMapping("edit/{id}")
 	 public ResponseEntity<Vendor> getVendorById(@PathVariable long id) {
 	     Vendor vendor = vservice.getVendorById(id);
@@ -80,6 +87,12 @@ public class VendorController {
 	     repo.delete(product);
 	     return ResponseEntity.ok(vendor);
 	 }
+	  @GetMapping("/getvendorbyproductid/{productId}")
+      public ResponseEntity<Vendor> getVendorByProductId(@PathVariable Long productId) {
+          return vrepo.findByProductProductid(productId)
+                  .map(ResponseEntity::ok)
+                  .orElseGet(() -> ResponseEntity.notFound().build());
+      }
 
 	
 	

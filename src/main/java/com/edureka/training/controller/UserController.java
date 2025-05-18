@@ -1,6 +1,7 @@
 package com.edureka.training.controller;
 
 import java.net.http.HttpHeaders;
+import java.util.List;
 import java.util.Map;
 
 import org.hibernate.mapping.Set;
@@ -24,9 +25,13 @@ import com.edureka.training.entity.Vendor;
 import com.edureka.training.repository.ProductRepository;
 import com.edureka.training.repository.UserRepository;
 import com.edureka.training.repository.VendorRepository;
+import com.edureka.training.service.ProductService;
 
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.SessionAttributes;
 @RestController
 @RequestMapping("/api")
+@SessionAttributes("loggedInUser")
 public class UserController {
 	@Autowired
 	UserRepository userrepo;
@@ -34,6 +39,8 @@ public class UserController {
 	ProductRepository productrepo;
 	@Autowired
 	VendorRepository vendorrepo;
+	 @Autowired
+	ProductService productService;
 	@GetMapping()
 	public String home() {
 		return "home";
@@ -103,6 +110,13 @@ public class UserController {
         	
                  return  ResponseEntity.ok(user);//ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
              }
+        @GetMapping("/allProducts")
+        public ResponseEntity<List<Product>> getAllProducts() {
+            List<Product> products = productrepo.findAll();
+            return ResponseEntity.ok(products);
+        }
+
+      
         }
     
 
